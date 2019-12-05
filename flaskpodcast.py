@@ -1,9 +1,10 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import joinedload
+import pprint
 app = Flask(__name__)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
@@ -14,6 +15,9 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
+    def __repr__(self):
+        return '<User %r>' % self.username
+
 
 class Podcast(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +25,10 @@ class Podcast(db.Model):
     description = db.Column(db.String(500), nullable=False)
     image = db.Column(db.String(500), nullable=False)
     link = db.Column(db.String(300))
+    episodes = db.relationship('Episode', backref='podcast')
+
+    def __repr__(self):
+        return '<Podcast %r>' % self.title
 
 class Episode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +37,10 @@ class Episode(db.Model):
     audio_url = db.Column(db.String(500), nullable=False, unique=True)
     time_published = db.Column(db.Integer, nullable=False)
     length = db.Column(db.Integer, nullable=False)
+    podcast_id = db.Column(db.Integer, db.ForeignKey('podcast.id'))
+
+    def __repr__(self):
+        return '<Episode %r>' % self.title
 
 podcasts = [
     {
@@ -46,8 +58,12 @@ podcasts = [
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', podcasts=podcasts)
+    pprint.pprint(Podcast.query.options(joinedload('episodes')))
+    return render_template('home.html', podcasts=Podcast.query.all())
 
 @app.route("/about")
 def about():
     return render_template('about.html', title="About")
+
+if __name__ == "__main__":
+    app.run(debug=True)

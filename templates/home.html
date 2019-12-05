@@ -1,8 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     {% for podcast in podcasts %}
-        <H1>{{ podcast.name }}</H1>
+        <H1>{{ podcast.title }}</H1>
+        <img src={{ podcast.image }} class="img-thumbnail" height="250" width="250">
         <p>Description: {{ podcast.description }}</p>
-        <p>Episode: {{ podcast.episode }}</p>
+        <p>Link: {{ podcast.link }}</p>
+        {% for episode in podcast.episodes %}
+        <p>Episode Title: {{ episode.title }}</p>
+        {% endfor %}
     {% endfor %}
 {% endblock content %}
