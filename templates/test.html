@@ -1,19 +1,20 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}This is an example page{% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        </ul>
-</nav>
+<nav class="navbar navbar-dark bg-dark" ">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href={{ url_for('home') }}>Podcasts</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active">
+        <li><a href={{ url_for('home') }}>Home</a></li>
+        <li><a href={{ url_for('about') }}>About</a></li>
+        <li><a href={{ url_for('test') }}>Test</a></li>
+      </ul>
+    </div>
+  </nav>
 {% endblock %}
 
 {% block content %}

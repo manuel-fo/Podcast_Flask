@@ -1,12 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for podcast in podcasts %}
-        <H1>{{ podcast.title }}</H1>
-        <img src={{ podcast.image }} class="img-thumbnail" height="250" width="250">
-        <p>Description: {{ podcast.description }}</p>
-        <p>Link: {{ podcast.link }}</p>
-        {% for episode in podcast.episodes %}
-        <p>Episode Title: {{ episode.title }}</p>
+    <br>
+    <div class="card-columns">
+        {% for podcast in podcasts %}
+        <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src={{ podcast.image }}>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ podcast.title }}
+                    </h5>
+                    <!-- <p class="card-text">
+                        {{ podcast.description }}
+                    </p> -->
+                    <a href="/{{ podcast.id }}" class="btn btn-primary">View Episodes</a>
+                </div>
+        </div>
         {% endfor %}
-    {% endfor %}
+    </div>
 {% endblock content %}

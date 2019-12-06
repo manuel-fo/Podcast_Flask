@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+    <br>
+    <div class="container rounded" style="background-color: #dbdada;">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="mx-auto">
+                    <img src={{ podcast.image }} class="rounded" height="300px" width="300px">
+                </div>
+            </div>
+            <div class="col-sm-8" >
+                <h2>{{ podcast.title }}</h2>
+                <p>{{ podcast.description }}</p>
+                <a href={{ podcast.id }} class="btn btn-primary">Visit Website</a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <ul class="list-group">
+        {% for episode in podcast.episodes %}
+        <li class="list-group-item">{{ episode.title }}</li>
+        {% endfor %}
+    </ul>
+    
+{% endblock content %}

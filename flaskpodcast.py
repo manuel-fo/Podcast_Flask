@@ -2,9 +2,11 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
+from flask_login import LoginManager
 import pprint
-app = Flask(__name__)
 
+app = Flask(__name__)
+login = LoginManager(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
@@ -54,15 +56,19 @@ podcasts = [
     }
 ]
 
-@app.route("/")
 @app.route("/home")
 def home():
     pprint.pprint(Podcast.query.options(joinedload('episodes')))
-    return render_template('home.html', podcasts=Podcast.query.all())
+    return render_template('home.html', podcasts=Podcast.query.all(), title="Home")
 
 @app.route("/about")
 def about():
     return render_template('about.html', title="About")
+
+@app.route("/<id>")
+@app.route("/episodes/<id>")
+def episodes(id):
+    return render_template('episodes.html', title="Title", podcast=Podcast.query.filter(Podcast.id==id).first())
 
 if __name__ == "__main__":
     app.run(debug=True)
