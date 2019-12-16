@@ -11,6 +11,8 @@ import urllib.request
 from rss_links import rss_links
 import pprint
 import os
+from flask.cli import with_appcontext
+import click
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -79,6 +81,8 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+@click.command(name='create_tables')
+@with_appcontext
 def create_tables():
     db.create_all()
 
