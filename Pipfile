@@ -17,6 +17,7 @@ podcastparser = "*"
 pprint = "*"
 flask-migrate = "*"
 flask-script = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"
