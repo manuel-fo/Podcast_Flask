@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+    <br>
+    <div class="container">
+
+    </div>
+
+
+
+    <div class="row align-items-center justify-content-center">
+            <div class="col"></div>
+            <div class="col">
+                <div class="container" style="align-content: center">
+                    <form action="" method="POST" style="text-align: center">
+                            {{ form.hidden_tag() }}
+                            <div class="container" style="align-self: center">
+                                {{ form.email(placeholder="Email") }}
+                            </div>
+                            <br>
+                            <div class="container">
+                                {{ form.password(placeholder="Password") }}
+                            </div>
+                            <br>
+                            <div class="container">
+                                {{ form.submit }}
+                            </div>
+                            <br>
+                            <div class="container">
+                                <a href={{ url_for('register') }}>
+                                    <p style="font-size: 70% ">Dont have an account?</p>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+            
+            <div class="col"></div>
+        </div>
+    
+{% endblock content %}
