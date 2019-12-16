@@ -79,6 +79,10 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+def create_tables():
+    db.create_all()
+
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
