@@ -81,6 +81,9 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+db.create_all()
+
+
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
