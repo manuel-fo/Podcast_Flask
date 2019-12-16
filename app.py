@@ -40,7 +40,7 @@ class Playlist(db.Model):
 
 
 class Playlist_Song(db.Model):
-    id = db.Column(db.Integer, primary_key=Truef)
+    id = db.Column(db.Integer, primary_key=True)
     playlist_id = db.Column(db.Integer, nullable=False)
     song_id = db.Column(db.Integer, nullable=False)
 
