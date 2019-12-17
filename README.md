@@ -77,7 +77,7 @@ Views and Descriptions:
           - used to store which episodes has been favorited by which user.
           - has a unique id, user_id (id of the user that favorited it), episode_id (id of the episode that was favorited)
           
- References/Resrouces:
+ References/Resources:
       - I did not use online templates but did use Bootstrap to style my website.
       - I used Miguel Grinberg's tutorial to learn how to implement flask-login
       - I used https://www.youtube.com/watch?v=FKy21FnjKS0&t=926s to learn how to deploy to Heroku
