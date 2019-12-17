@@ -43,10 +43,10 @@ class Playlist(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
 
 
-class Playlist_Song(db.Model):
+class Playlist_Episode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    playlist_id = db.Column(db.Integer, nullable=False)
-    song_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    episode_id = db.Column(db.Integer, nullable=False)
 
 
 class Podcast(db.Model):
@@ -115,7 +115,16 @@ def home():
 @app.route("/playlists")
 def playlists():
     if current_user.is_authenticated:
-        return render_template('playlists.html', title="Playlist")
+        episodes = []
+        ids = []
+        episode_ids = Playlist_Episode.query.filter(Playlist_Episode.user_id == current_user.id).all()
+        for ep_id in episode_ids:
+            if ep_id.episode_id not in ids:
+                episode = Episode.query.filter(Episode.id == ep_id.episode_id).first()
+                episodes.append(episode)
+                ids.append(ep_id.episode_id)
+
+        return render_template('playlists.html', title="Playlist", episodes=episodes)
     flash('You must login before viewing your playlists', 'error')
     return redirect(url_for('login'))
 
@@ -179,6 +188,17 @@ def reloadDB():
     return redirect('home')
 
 
+@app.route("/favorite/<id>/<podcast>")
+def favorite(id, podcast):
+    if current_user.is_authenticated:
+        
+        playlist_episode = Playlist_Episode(user_id=current_user.id, episode_id=id)
+        pprint.pprint(playlist_episode)
+        db.session.add(playlist_episode)
+        db.session.commit()
+    return redirect('/' + podcast)
+
+
 def remove_html(text):
     import re
     clean = re.compile('<.*?>')
@@ -187,7 +207,7 @@ def remove_html(text):
 
 def refresh():
     for rss in rss_links:
-        parsed = podcastparser.parse(rss, urllib.request.urlopen(rss), 10)
+        parsed = podcastparser.parse(rss, urllib.request.urlopen(rss), 20)
         title = parsed.get('title')
         description = remove_html(parsed.get('description'))
         image = parsed.get('cover_url')

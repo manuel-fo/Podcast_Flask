@@ -1,3 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
+<br>
+<h5>Favorited Episodes</h5>
+<ul class="list-group"></ul>
+    {% for episode in episodes %}
+        <li class="list-group-item">
+            <a href={{ episode.audio_url }}>{{ episode.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
 {% endblock content %}
